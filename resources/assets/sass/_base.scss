@@ -3,12 +3,13 @@
 html, body {
     max-width: 100%;
     overflow-x: hidden;
-    background: $lightgrey;
+    background: white;
     height: 100%;
 }
 
 body {
 	padding-top: 63px;
+    color: #777;
 }
 
 table {

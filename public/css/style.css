@@ -1,27 +1,13 @@
-/*==============================colours==============================*/
-/* $income_background: #B0FFC5; */
-/* $expense_background: #FFD6C8; */
-/* $income_background: $light_blue;
-$expense_background: $light_blue; */
-/*==============================variables==============================*/
-/* $border: .5px solid black; */
-/* @mixin hover_span {
-	position: absolute;
-	background: black;
-	color: white;
-	height: 35px;
-	border-radius: 5px;
-	text-align: center;
-} */
 /*==============================global==============================*/
 html, body {
   max-width: 100%;
   overflow-x: hidden;
-  background: lightgrey;
+  background: white;
   height: 100%; }
 
 body {
-  padding-top: 63px; }
+  padding-top: 63px;
+  color: #777; }
 
 table caption {
   padding: 8px;
@@ -40,7 +26,11 @@ textarea {
   height: 70px;
   background: transparent; }
 
-/*==============================font awesome==============================*/
+/*==============================colours==============================*/
+/* $income_background: #B0FFC5; */
+/* $expense_background: #FFD6C8; */
+/* $income_background: $light_blue;
+$expense_background: $light_blue; */
 .fa {
   font-size: 19px; }
 
@@ -99,9 +89,6 @@ textarea {
     font-size: 15px;
     right: 0;
     top: -4px; }
-
-#login-form {
-  margin-top: 130px; }
 
 .pointer {
   cursor: pointer; }

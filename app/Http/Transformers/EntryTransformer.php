@@ -26,7 +26,7 @@ class EntryTransformer extends TransformerAbstract
             'restoration_age' => $entry->restoration_age,
             'note' => $entry->note,
             'restoration_type' => [
-                $entry->restorationType->name
+                'name' => $entry->restorationType->name
             ],
             'folders' => $entry->folders
 

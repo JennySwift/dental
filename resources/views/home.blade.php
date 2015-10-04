@@ -4,8 +4,8 @@
 
     <meta charset="UTF-8" name="viewport" content="initial-scale = 1">
     <title>Dental App!</title>
-    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/plugins.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body class="" ng-controller="HomeController">

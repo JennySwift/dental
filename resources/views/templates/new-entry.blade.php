@@ -19,7 +19,7 @@
 				<td><input ng-model="new.tooth_number" type="text" placeholder="tooth #"></td>
 				<td>
 					<select ng-model="new.restoration_type_id" name="" id="">
-						<option ng-repeat="type in restoration_types" value="[[type.id]]">[[type.name]]</option>
+						<option ng-repeat="type in restorationTypes" value="[[type.id]]">[[type.name]]</option>
 					</select>
 				</td>
 				<td><input ng-model="new.OR_date" ng-keyup="restorationAge($event.keyCode, new.OR_date, new.LP_date, new)" type="text" placeholder="original restoration date" id="original-restoration-date"></td>
