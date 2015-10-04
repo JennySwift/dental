@@ -6,5 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Entry extends Model
 {
-    //
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function restorationType()
+    {
+        return $this->belongsTo('App\Models\RestorationType');
+    }
 }

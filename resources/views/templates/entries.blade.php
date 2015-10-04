@@ -14,7 +14,7 @@
 				<th>where kept</th>
 				<th>note</th>
 			</tr>
-			<tr ng-repeat="entry in info">
+			<tr ng-repeat="entry in entries">
 				<td ng-if="!entry.edit">[[entry.first_name]]</td>
 				<td ng-if="entry.edit"><input type="text" ng-model="entry.first_name"></td>
 

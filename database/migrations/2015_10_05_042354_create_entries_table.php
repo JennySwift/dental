@@ -17,12 +17,14 @@ class CreateEntriesTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('tooth_number');
-            $table->integer('restoration_type');
+            $table->integer('restoration_type_id')->unsigned()->index();
             $table->date('original_restoration_date')->nullable();
             $table->date('last_photo_date')->nullable();
             $table->decimal('restoration_age', 10, 1)->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
+
+//            $table->foreign('restoration_type_id')->references('id')->on('restoration_types');
         });
     }
 

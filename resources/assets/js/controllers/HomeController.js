@@ -1,4 +1,3 @@
-var $page = window.location.pathname;
 var app = angular.module('dentalApp', ['checklist-model']);
 
 app.config(function ($interpolateProvider) {
@@ -8,7 +7,7 @@ app.config(function ($interpolateProvider) {
 
 (function () {
 
-	app.controller('HomeController', function ($scope, $http, DatesFactory, select, AutocompleteFactory, insert, update) {
+	app.controller('HomeController', function ($scope, RestorationTypesFactory, FoldersFactory, EntriesFactory) {
 
 		$scope.info = {};
 		$scope.new = {};
@@ -16,21 +15,19 @@ app.config(function ($interpolateProvider) {
 		$scope.folders = {};
 		$scope.filter = [];
 		$scope.error_messages = [];
-		$scope.edit = {}; //Used for the editing folders popup. not to be confused with $scope.info iteration edit property. 
-		
-		// ===========================select===========================
+		$scope.edit = {}; //Used for the editing folders popup. not to be confused with $scope.info iteration edit property.
 
-		select.restorationTypes().then(function (response) {
-			$scope.restoration_types = response.data.array;
+		RestorationTypesFactory.index().then(function (response) {
+			$scope.restoration_types = response.data;
 		});
 
-		select.folders().then(function (response) {
-			$scope.folders = response.data.array;
+		FoldersFactory.index().then(function (response) {
+			$scope.folders = response.data;
 		});
 
 		function displayEntries () {
-			select.getInfo().then(function (response) {
-				$scope.info = response.data.array;
+			EntriesFactory.index().then(function (response) {
+				$scope.entries = response.data;
 			});
 		}
 
@@ -38,16 +35,13 @@ app.config(function ($interpolateProvider) {
 
 		$scope.myFilter = function ($keycode) {
 			if ($keycode === 13) {
-				// $scope.info = {};
 				select.filter($scope.filter).then(function (response) {
-					$scope.info = response.data.array;
+					$scope.entries = response.data;
 				});
 			}
 		};
-		
-		// ===========================insert===========================
 
-		$scope.add = function () {
+		$scope.addEntry = function () {
 			if (!$scope.new.folders || $scope.new.folders.length === 0 ) {
 				$scope.error_messages.push("You haven't chosen a folder.");
 				return;
@@ -68,14 +62,12 @@ app.config(function ($interpolateProvider) {
 				$scope.error_messages.push("You haven't selected a restoration type.");
 				return;
 			}
-			insert.insert($scope.new).then(function (response) {
+			EntriesFactory.insert($scope.new).then(function (response) {
 				displayEntries();
 				$scope.new = {};
 				$("#original-restoration-date, #last-photo-date").val("");
 			});
 		};
-
-		// ===========================update===========================
 
 		$scope.editEntry = function ($entry) {
 			//to display the edit popup. updateEntry is to make the database changes.
@@ -85,16 +77,14 @@ app.config(function ($interpolateProvider) {
 		};
 
 		$scope.updateEntry = function ($entry) {
-			update.entry($entry).then(function (response) {
+			EntriesFactory.update($entry).then(function (response) {
 				$scope.edit.show = false;
 				displayEntries();
 			});
 		};
 
-		// ===========================delete===========================
-
-		$scope.deleteItem = function ($entry_id) {
-			deleteItem.deleteItem('delete_entry', 'entry', $entry_id).then(function (response) {
+		$scope.deleteEntry = function ($entry_id) {
+			EntriesFactory.deleteEntry('delete_entry', 'entry', $entry_id).then(function (response) {
 				displayEntries();
 			});
 		};
@@ -131,8 +121,6 @@ app.config(function ($interpolateProvider) {
 			$entry.restoration_type_name = $restoration_type.name;
 		};
 
-		// ===========================filter===========================
-		
-	}); //end display controller
+	});
 
 })();

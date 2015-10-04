@@ -12,27 +12,12 @@
 @include('templates.header')
 @include('templates.popups')
 
-<!-- ==============================.container============================== -->    
 <div class="container">
 	
-	<!-- ==============================error messages============================== -->
+    @include('templates.feedback')
 
-	<div class="row">
-		<div class="col-sm-12">
-			<div ng-repeat = "message in error_messages" class="error-messages">
-				<p class="">[[message]]</p>
-				<button ng-click="dismiss(message)" class="btn btn-xs btn-default">dismiss</button>
-			</div>
-		</div>
-	</div>
 
-	<!-- ==============================search============================== -->
-	
-	<div class="row">
-		<div class="col-sm-12">
-			<input ng-model="filter" ng-list ng-keyup="myFilter($event.keyCode)" type="text" placeholder="search" class="form-control">
-		</div>
-	</div>
+    @include('templates.filter')
 
 	<hr>
 	

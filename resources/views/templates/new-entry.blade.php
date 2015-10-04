@@ -52,6 +52,6 @@
 
 <div class="row">
 	<div class="col-sm-12">
-		<button ng-click="add()" class="form-control">enter</button>
+		<button ng-click="addEntry()" class="form-control">enter</button>
 	</div>
 </div>

@@ -13,9 +13,13 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-        // $this->call(UserTableSeeder::class);
+         $this->call(FoldersSeeder::class);
+         $this->call(RestorationTypesSeeder::class);
+         $this->call(EntriesSeeder::class);
 
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
         Model::reguard();
     }
 }
