@@ -1,0 +1,20 @@
+.error-messages {
+	position: relative;
+	p {
+	    font-size: 17px;
+	    // position: fixed;
+	    // text-align: center;
+	    // top: 52px;
+	    // width: 100%;
+	    // display: none;
+		background: lighten(red, 20%);
+		padding: 3px 8px;
+		// cursor: pointer;
+	}
+	button {
+		position: absolute;
+		right:0;
+		top: 0;
+		bottom: 0;
+	}
+}

@@ -1,0 +1,187 @@
+.pointer {
+	cursor: pointer;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.center {
+	text-align: center;
+}
+
+.margin-bottom {
+	margin-bottom: 15px;
+}
+
+.bg-blue {
+	background: $select_blue;
+}
+
+.block {
+	display:block;
+}
+
+// .input-group-inline {
+// 	display: inline-table;
+// 	// vertical-align: middle;
+// 	// // width: auto;
+// 	// width: 35%;
+// 	// input {
+// 	// 	width: 100%;
+// 	// }
+// 	// .input-group-btn, .form-control {
+// 	// 	// width: auto;
+// 	// 	// width: 50%;
+// 	// }
+// }
+
+.input-group-inline {
+
+}
+
+//to get an input like Bootstrap's inputs
+.my-input {
+	// display: block;
+	// width: 100%;
+	width: 0%;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+	color: #555;
+	font-size: 14px;
+	height: 34px;
+	line-height: 1.42857;
+	padding: 6px 12px;
+	&:focus {
+		border-color: #66afe9;
+		box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+	}
+}
+
+//to get a button like Bootstrap's button
+.my-btn {
+	// display: block;
+	// width: 100%;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+	color: #555;
+	font-size: 14px;
+	height: 34px;
+	// line-height: 1.42857;
+	padding: 6px 12px;
+	// width: 30%;
+	// text-align: center;
+	// vertical-align: middle;
+	&:active {
+		box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
+		border: 1px solid black;
+	}
+	&:focus {
+		outline: thin dotted;
+		outline-offset: -2px;
+	}
+	&:hover, &:focus, &:active {
+		background-color: #e6e6e6;
+		border-color: #adadad;
+		color: #333;
+	}
+	// .btn:focus, .btn:active:focus, .btn.active:focus {
+	//     outline: thin dotted;
+	//     outline-offset: -2px;
+	// }
+	// .btn:active, .btn.active {
+	//     background-image: none;
+	//     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
+	// }
+	// .btn:hover, .btn:focus {
+	//     color: #333;
+	//     text-decoration: none;
+	// }
+}
+
+.my-input-group {
+	// display: flex;
+	input, button {
+		display: block;
+		width: 100%;
+	}
+	// input {
+	// 	flex-basis: 80%;
+	// }
+	// button {
+	// 	flex-basis: 20%;
+	// }
+}
+
+// .my-input-group {
+// 	display: inline-flex;
+// 	input {
+// 		margin-right: -4px;
+// 		border-top-right-radius: 0;
+// 		border-bottom-right-radius: 0;
+// 		flex-basis: 80%;
+// 		// border-right: 1px solid black;
+// 	}
+// 	button {
+// 		border-top-left-radius: 0;
+// 		border-bottom-left-radius: 0;
+// 		flex-basis: 20%;
+// 		// border-left: 1px solid #ccc;
+// 	}	
+// }
+
+.my-btn-group {
+	display: flex;
+	display: -webkit-flex;
+	button {
+		display: block;
+		width: 100%;
+	}
+	// display: inline-flex;
+	// button {
+	// 	flex-grow: 1;
+	// }
+}
+
+.flex-parent {
+	display: flex;
+	display: -webkit-flex;
+	.flex-child {
+		// flex-basis: 1;
+		// flex-grow: 1;
+	}
+	.flex-grow-1 {
+		flex-grow: 1;
+		-webkit-flex-grow: 1;
+	}
+	.flex-grow-2 {
+		flex-grow: 2;
+		-webkit-flex-grow: 2;
+	}
+	.flex-basis-xs {
+		flex-basis: 20px;
+		-webkit-flex-basis: 20px;
+	}
+	.flex-basis-sm {
+		flex-basis: 40px;
+		-webkit-flex-basis: 40px;
+	}
+	.flex-basis-md {
+		flex-basis: 80px;
+		-webkit-flex-basis: 80px;
+	}
+}
+
+.min-width-md {
+	min-width: 40px;
+}
+.max-width-md {
+	max-width: 40px;
+}
+.max-width-lg {
+	max-width: 80px;
+}

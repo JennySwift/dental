@@ -1,0 +1,34 @@
+/*==============================global==============================*/
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    background: $lightgrey;
+    height: 100%;
+}
+
+body {
+	padding-top: 63px;
+}
+
+table {
+	caption {
+		padding: 8px;
+		font-weight: bold;
+	}
+	td,th {
+		// padding: 0;
+		text-align: center;
+	}
+	input {
+		width: 100%;
+		background: transparent;
+		border: none;
+	}
+}
+
+textarea {
+	width: 100%;
+	height: 70px;
+	background: transparent;
+}

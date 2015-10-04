@@ -1,0 +1,25 @@
+.note-container {
+	position: relative;
+	&:hover {
+		.note-popup {
+			visibility: visible;
+		}
+	}
+	.note-icon {
+		cursor: default;
+	}
+	.note-popup {
+		visibility: hidden;
+		background: pink;
+		position: absolute;
+		right:47px;
+		top: 0;
+		padding: 15px;
+		border-radius: 10px;
+		background: white;
+		color: #777;
+		max-height: 200px;
+		overflow: scroll;
+		width: 400px;
+	}
+}
