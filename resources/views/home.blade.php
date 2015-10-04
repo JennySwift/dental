@@ -5,6 +5,7 @@
     <meta charset="UTF-8" name="viewport" content="initial-scale = 1">
     <title>Dental App!</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/plugins.css">
 </head>
 
 <body class="" ng-controller="HomeController">
@@ -29,7 +30,7 @@
 	      
 </div> <!-- .container -->  
 
-<script type="text/javascript" src="/js/all.js"></script>
+@include('templates.footer')
 
 </body>
 </html>

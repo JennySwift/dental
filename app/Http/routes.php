@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', 'PagesController@home');
 
 Route::resource('entries', 'EntriesController', ['only' => ['index', 'destroy']]);
 Route::resource('restoration-types', 'RestorationTypesController', ['only' => ['index', 'destroy']]);

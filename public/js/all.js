@@ -13374,21 +13374,9 @@ app.config(function ($interpolateProvider) {
 		$scope.error_messages = [];
 		$scope.edit = {}; //Used for the editing folders popup. not to be confused with $scope.info iteration edit property.
 
-		RestorationTypesFactory.index().then(function (response) {
-			$scope.restoration_types = response.data;
-		});
-
-		FoldersFactory.index().then(function (response) {
-			$scope.folders = response.data;
-		});
-
-		function displayEntries () {
-			EntriesFactory.index().then(function (response) {
-				$scope.entries = response.data;
-			});
-		}
-
-		displayEntries();
+        $scope.restorationTypes = restorationTypes;
+        $scope.folders = folders;
+        $scope.entries = entries;
 
 		$scope.myFilter = function ($keycode) {
 			if ($keycode === 13) {
@@ -13520,11 +13508,11 @@ app.factory('DatesFactory', function () {
 angular.module('dentalApp')
     .factory('EntriesFactory', function ($http, DatesFactory) {
         return {
-            index: function () {
-                var $url = '/entries';
-
-                return $http.get($url);
-            },
+            //index: function () {
+            //    var $url = '/entries';
+            //
+            //    return $http.get($url);
+            //},
             insert: function ($new_entry) {
                 var $url = 'ajax/insert.php';
                 var $table = 'info';
@@ -13574,21 +13562,17 @@ angular.module('dentalApp')
 angular.module('dentalApp')
     .factory('FoldersFactory', function ($http) {
         return {
-            index: function () {
-                var $url = '/folders';
-
-                return $http.get($url);
-            },
+            //index: function () {
+            //    var $url = '/folders';
+            //
+            //    return $http.get($url);
+            //},
         }
     });
 angular.module('dentalApp')
     .factory('RestorationTypesFactory', function ($http) {
         return {
-            index: function () {
-                var $url = '/restoration-types';
 
-                return $http.get($url);
-            },
         }
     });
 //# sourceMappingURL=all.js.map

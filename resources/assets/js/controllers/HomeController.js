@@ -17,21 +17,9 @@ app.config(function ($interpolateProvider) {
 		$scope.error_messages = [];
 		$scope.edit = {}; //Used for the editing folders popup. not to be confused with $scope.info iteration edit property.
 
-		RestorationTypesFactory.index().then(function (response) {
-			$scope.restoration_types = response.data;
-		});
-
-		FoldersFactory.index().then(function (response) {
-			$scope.folders = response.data;
-		});
-
-		function displayEntries () {
-			EntriesFactory.index().then(function (response) {
-				$scope.entries = response.data;
-			});
-		}
-
-		displayEntries();
+        $scope.restorationTypes = restorationTypes;
+        $scope.folders = folders;
+        $scope.entries = entries;
 
 		$scope.myFilter = function ($keycode) {
 			if ($keycode === 13) {

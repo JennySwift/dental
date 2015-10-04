@@ -1,11 +1,11 @@
 angular.module('dentalApp')
     .factory('EntriesFactory', function ($http, DatesFactory) {
         return {
-            index: function () {
-                var $url = '/entries';
-
-                return $http.get($url);
-            },
+            //index: function () {
+            //    var $url = '/entries';
+            //
+            //    return $http.get($url);
+            //},
             insert: function ($new_entry) {
                 var $url = 'ajax/insert.php';
                 var $table = 'info';
