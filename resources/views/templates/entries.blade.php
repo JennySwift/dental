@@ -1,7 +1,8 @@
-<div class="row">
-	<div class="col-sm-12">
+
+<div id="entries">
+    <h2>Entries</h2>
+	<div>
 		<table class="table table-bordered">
-			<caption class="bg-blue">Entries</caption>
 			<tr>
 				<th>first name</th>
 				<th>last name</th>
@@ -12,6 +13,8 @@
 				<th>restoration age</th>
 				<th>folders</th>
 				<th>note</th>
+                <th></th>
+                <th></th>
 			</tr>
 			<tr ng-repeat="entry in entries">
 				<td ng-if="!entry.edit">[[entry.first_name]]</td>

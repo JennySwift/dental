@@ -16,15 +16,8 @@
 <div class="container">
 	
     @include('templates.feedback')
-
-
-    @include('templates.filter')
-
-	<hr>
 	
 	@include('templates.new-entry')
-
-	<hr>
 
 	@include('templates.entries')
 	      

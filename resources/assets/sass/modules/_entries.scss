@@ -1,26 +1,33 @@
-.note-container {
-	position: relative;
-	&:hover {
-		.note-popup {
-			visibility: visible;
-		}
-	}
-	.note-icon {
-		cursor: default;
-//        font-size: 20px;
-	}
-	.note-popup {
-		visibility: hidden;
-		background: pink;
-		position: absolute;
-		right:47px;
-		top: 0;
-		padding: 15px;
-		border-radius: 10px;
-		background: white;
-		color: #777;
-		max-height: 200px;
-		overflow: scroll;
-		width: 400px;
-	}
+#entries {
+    margin-top: 40px;
+    > div {
+        box-shadow: 3px 3px 5px #777;
+        .note-container {
+            position: relative;
+            &:hover {
+                .note-popup {
+                    visibility: visible;
+                }
+            }
+            .note-icon {
+                cursor: default;
+            }
+            .note-popup {
+                visibility: hidden;
+                background: pink;
+                position: absolute;
+                right:47px;
+                top: 0;
+                padding: 15px;
+                border-radius: 10px;
+                background: white;
+                color: #777;
+                max-height: 200px;
+                overflow: scroll;
+                width: 400px;
+            }
+        }
+    }
+
 }
+
