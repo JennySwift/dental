@@ -13,7 +13,7 @@
 @include('templates.header')
 @include('templates.popups')
 
-<div class="container">
+<div class="main">
 	
     @include('templates.feedback')
 	
