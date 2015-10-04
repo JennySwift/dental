@@ -21,6 +21,6 @@ class Entry extends Model
      */
     public function folders()
     {
-        return $this->belongsTo('App\Models\Folder');
+        return $this->belongsToMany('App\Models\Folder');
     }
 }
