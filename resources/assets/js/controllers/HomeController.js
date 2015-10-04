@@ -9,10 +9,7 @@ app.config(function ($interpolateProvider) {
 
 	app.controller('HomeController', function ($scope, RestorationTypesFactory, FoldersFactory, EntriesFactory) {
 
-		$scope.info = {};
 		$scope.new = {};
-		$scope.restoration_types = {};
-		$scope.folders = {};
 		$scope.filter = [];
 		$scope.error_messages = [];
 		$scope.edit = {}; //Used for the editing folders popup. not to be confused with $scope.info iteration edit property.

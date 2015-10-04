@@ -14,4 +14,13 @@ class Entry extends Model
     {
         return $this->belongsTo('App\Models\RestorationType');
     }
+
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function folders()
+    {
+        return $this->belongsTo('App\Models\Folder');
+    }
 }

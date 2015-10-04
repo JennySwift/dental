@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWhereKeptTable extends Migration
+class CreateEntryFolderTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateWhereKeptTable extends Migration
      */
     public function up()
     {
-        Schema::create('where_kept', function (Blueprint $table) {
+        Schema::create('entry_folder', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('entry_id')->unsigned()->index();
             $table->integer('folder_id')->unsigned()->index();
@@ -30,6 +30,6 @@ class CreateWhereKeptTable extends Migration
      */
     public function down()
     {
-        Schema::drop('where_kept');
+        Schema::drop('entry_folder');
     }
 }

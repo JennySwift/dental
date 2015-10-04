@@ -10,7 +10,7 @@
 				<th>original restoration date</th>
 				<th>last photo date</th>
 				<th>restoration age</th>
-				<th>where kept</th>
+				<th>folders</th>
 				<th>note</th>
 			</tr>
 			<tr ng-repeat="entry in entries">
@@ -23,7 +23,7 @@
 				<td ng-if="!entry.edit">[[entry.tooth_number]]</td>
 				<td ng-if="entry.edit"><input type="text" ng-model="entry.tooth_number"></td>
 
-				<td ng-if="!entry.edit">[[entry.restoration_type_name]]</td>
+				<td ng-if="!entry.edit">[[entry.restoration_type.name]]</td>
 				<td ng-if="entry.edit">
 					<select ng-model="entry.restoration_type_id" ng-options="type.id as type.name for type in restoration_types" ng-change="restorationTypeName(entry)" name="" id="">
 						<!-- <option value=""></option> -->
@@ -41,10 +41,10 @@
 				<td ng-if="entry.edit"><input type="text" ng-model="entry.restoration_age"></td>
 
 				<td ng-if="!entry.edit">
-					<span ng-repeat="folder in entry.where_kept" class="badge">[[folder.name]]</span>
+					<span ng-repeat="folder in entry.folders" class="badge">[[folder.name]]</span>
 				</td>
 				<td ng-if="entry.edit">
-					<span ng-repeat="folder in entry.where_kept" class="badge">[[folder.name]]</span>
+					<span ng-repeat="folder in entry.folders" class="badge">[[folder.name]]</span>
 					<!-- <button ng-click="editFolders()" class="btn btn-xs btn-default">edit</button> -->
 				</td>
 
