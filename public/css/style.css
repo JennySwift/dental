@@ -245,6 +245,8 @@ $expense_background: $light_blue; */
   padding: 32px;
   border-radius: 4px;
   box-shadow: 3px 3px 5px #777; }
+  #new-entry .center {
+    text-align: center; }
 
 #navbar {
   display: -webkit-flex;

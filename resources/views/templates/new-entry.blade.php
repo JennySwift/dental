@@ -58,7 +58,12 @@
 
     </div>
 
+
     <div class="margin-bottom">
+
+        <div class="center">
+            <label>Add a note</label>
+        </div>
 
         <div>
             <textarea ng-model="new.note" name="" id="" cols="30" rows="10"></textarea>
