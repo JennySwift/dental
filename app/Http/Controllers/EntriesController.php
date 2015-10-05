@@ -105,6 +105,7 @@ class EntriesController extends Controller
     public function destroy($id)
     {
         Entry::find($id)->delete();
+        return $this->responseNoContent();
     }
 
 }

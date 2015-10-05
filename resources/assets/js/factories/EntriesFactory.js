@@ -44,6 +44,11 @@ angular.module('dentalApp')
                 };
 
                 return $http.post($url, $data);
+            },
+            destroy: function ($entry) {
+                var $url = '/entries/' + $entry.id;
+
+                return $http.delete($url);
             }
         }
     });

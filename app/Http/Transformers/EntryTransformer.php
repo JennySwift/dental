@@ -11,6 +11,7 @@ class EntryTransformer extends TransformerAbstract
     public function transform(Entry $entry)
     {
         return [
+            'id' => $entry->id,
             'first_name' => $entry->first_name,
             'last_name' => $entry->last_name,
             'tooth_number' => $entry->tooth_number,

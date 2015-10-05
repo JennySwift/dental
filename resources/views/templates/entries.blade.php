@@ -63,7 +63,7 @@
 					<!-- <button ng-if="entry.edit" ng-click="updateEntry(entry); entry.edit = false" class="btn btn-default">done</button> -->
 				</td>
 				<td>
-					<button ng-click="deleteItem(entry.entry_id)" class="btn btn-default">delete</button>
+					<button ng-click="deleteEntry(entry)" class="btn btn-default">delete</button>
 				</td>
 			</tr>
 

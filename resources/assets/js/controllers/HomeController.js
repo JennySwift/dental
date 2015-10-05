@@ -105,10 +105,13 @@ app.config(function ($interpolateProvider) {
 			});
 		};
 
-		$scope.deleteEntry = function ($entry_id) {
-			EntriesFactory.deleteEntry('delete_entry', 'entry', $entry_id).then(function (response) {
-				displayEntries();
-			});
+		$scope.deleteEntry = function ($entry) {
+            if (confirm('Are you sure?')) {
+                EntriesFactory.destroy($entry).then(function (response) {
+                    $rootScope.$broadcast('provideFeedback', 'Entry deleted');
+                    $scope.entries = _.without($scope.entries, $entry);
+                });
+            }
 		};
 
 		// ===========================other===========================
