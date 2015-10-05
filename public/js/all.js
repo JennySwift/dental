@@ -13468,15 +13468,16 @@ app.config(function ($interpolateProvider) {
          */
 		$scope.editEntry = function ($entry) {
 			$scope.edit = $entry;
-			$scope.edit.folders = {};
+			//$scope.edit.folders = {};
+            $scope.edit.folders = $entry.folders;
 			$scope.show.popups.editEntry = true;
 		};
 
 		$scope.updateEntry = function ($entry) {
 			EntriesFactory.update($entry).then(function (response) {
                 $rootScope.$broadcast('provideFeedback', 'Entry updated');
-				$scope.edit.show = false;
-				//getEntries();
+				$scope.show.popups.editEntry = false;
+				getEntries();
 			});
 		};
 
@@ -13510,16 +13511,16 @@ app.config(function ($interpolateProvider) {
 			}
 		};
 
-		$scope.dismiss = function ($message) {
-			$scope.error_messages = _.without($scope.error_messages, $message);
-		};
+		//$scope.dismiss = function ($message) {
+		//	$scope.error_messages = _.without($scope.error_messages, $message);
+		//};
 
-		$scope.restorationTypeName = function ($entry) {
-			$restoration_type = _.find($scope.restoration_types, function ($type) {
-				return $type.id === $entry.restoration_type_id;
-			});
-			$entry.restoration_type_name = $restoration_type.name;
-		};
+		//$scope.restorationTypeName = function ($entry) {
+		//	$restoration_type = _.find($scope.restoration_types, function ($type) {
+		//		return $type.id === $entry.restoration_type_id;
+		//	});
+		//	$entry.restoration_type_name = $restoration_type.name;
+		//};
 
 	});
 
@@ -13597,16 +13598,6 @@ angular.module('dentalApp')
 
                 $entry.original_restoration_date = $filter('formatDate')($entry.original_restoration_date.user);
                 $entry.last_photo_date = $filter('formatDate')($entry.last_photo_date.user);
-
-                //folders
-                $.each($entry.folders, function (index, value) {
-                    if (value) {
-                        //this makes $folders an array of folder ids
-                        $folders.push(index);
-                    }
-                });
-
-                $entry.folders = $folders;
 
                 return $http.put($url, $entry);
             },

@@ -20,7 +20,10 @@
                 <td><input type="text" ng-model="edit.last_name"></td>
                 <td><input type="text" ng-model="edit.tooth_number"></td>
                 <td>
-                    <select ng-model="edit.restoration_type_id" ng-options="type.id as type.name for type in restoration_types" ng-change="restorationTypeName(edit)" name="" id="">
+                    <select
+                        ng-model="edit.restoration_type_id"
+                        ng-options="type.id as type.name for type in restorationTypes">
+                        {{--ng-change="restorationTypeName(edit)">--}}
                     </select>
                 </td>
                 <td><input type="text" ng-model="edit.original_restoration_date.user" ng-keyup="restorationAge($event.keyCode, edit.original_restoration_date.user, edit.last_photo_date.user, edit)"></td>
@@ -30,7 +33,11 @@
         </table>
 
         <label ng-repeat="folder in folders" class="block">
-            <input checklist-model="edit.where_kept" checklist-value="folder" type="checkbox">[[folder.name]]
+            <input
+                checklist-model="edit.folder_ids"
+                checklist-value="folder.id"
+                type="checkbox">
+                [[folder.name]]
         </label>
 
         <textarea ng-model="edit.note" name="" id="" cols="30" rows="10"></textarea>

@@ -48,7 +48,6 @@ function transform($resource)
 
     $manager->parseIncludes(request()->get('includes', []));
 
-//    return $manager->createData($resource);
     return $manager->createData($resource)->toArray();
 }
 

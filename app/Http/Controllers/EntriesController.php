@@ -79,9 +79,13 @@ class EntriesController extends Controller
         ), 'removeFalseKeepZero');
 
         $entry->update($data);
+
+        $restorationType = RestorationType::find($request->get('restoration_type_id'));
+        $entry->restorationType()->associate($restorationType);
+
         $entry->save();
 
-        $entry->folders()->sync($request->get('folders'));
+        $entry->folders()->sync($request->get('folder_ids'));
 
         return $this->responseOk($entry);
     }

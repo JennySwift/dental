@@ -1,6 +1,9 @@
 <?php namespace App\Http\Transformers;
 
 use App\Models\Entry;
+use App\Models\Folder;
+use League\Fractal\Manager;
+use League\Fractal\Serializer\ArraySerializer;
 use League\Fractal\TransformerAbstract;
 
 /**
@@ -8,6 +11,10 @@ use League\Fractal\TransformerAbstract;
  */
 class EntryTransformer extends TransformerAbstract
 {
+//    protected $defaultIncludes = [
+//        'folders'
+//    ];
+
     public function transform(Entry $entry)
     {
         return [
@@ -29,9 +36,17 @@ class EntryTransformer extends TransformerAbstract
             'restoration_type' => [
                 'name' => $entry->restorationType->name
             ],
-            'folders' => $entry->folders
+            'folders' => $entry->folders,
+            'folder_ids' => $entry->folders->lists('id')->all()
 
         ];
     }
+
+//    public function includeFolders(Entry $entry)
+//    {
+//        $folders = $entry->folders;
+//
+//        return createCollection($folders, new FolderTransformer);
+//    }
 
 }

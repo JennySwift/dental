@@ -36,16 +36,6 @@ angular.module('dentalApp')
                 $entry.original_restoration_date = $filter('formatDate')($entry.original_restoration_date.user);
                 $entry.last_photo_date = $filter('formatDate')($entry.last_photo_date.user);
 
-                //folders
-                $.each($entry.folders, function (index, value) {
-                    if (value) {
-                        //this makes $folders an array of folder ids
-                        $folders.push(index);
-                    }
-                });
-
-                $entry.folders = $folders;
-
                 return $http.put($url, $entry);
             },
             destroy: function ($entry) {
