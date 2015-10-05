@@ -27,12 +27,12 @@ class PagesController extends Controller
 
     public function home()
     {
-//        return $this->entriesRepository->getEntries()['data'];
+//        return $this->entriesRepository->getEntries();
         JavaScript::put([
             'env' => app()->env,
             'restorationTypes' => RestorationType::get(),
             'folders' => Folder::get(),
-            'entries' => $this->entriesRepository->getEntries()['data']
+            'entries' => $this->entriesRepository->getEntries()
         ]);
 
         return view('home');

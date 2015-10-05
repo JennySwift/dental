@@ -44,7 +44,7 @@ class EntriesController extends Controller
 //                ->orderBy('last_name', 'asc');
 //        }
 
-        $entries = $this->entriesRepository->getEntries()['data'];
+        $entries = $this->entriesRepository->getEntries();
         return $entries;
     }
 

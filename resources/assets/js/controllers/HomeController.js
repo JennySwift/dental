@@ -7,7 +7,7 @@ app.config(function ($interpolateProvider) {
 
 (function () {
 
-	app.controller('HomeController', function ($rootScope, $scope, RestorationTypesFactory, FoldersFactory, EntriesFactory) {
+	app.controller('HomeController', function ($rootScope, $scope, RestorationTypesFactory, FoldersFactory, EntriesFactory, ErrorsFactory) {
 
 		$scope.new = {};
 		$scope.filter = [];
@@ -45,12 +45,13 @@ app.config(function ($interpolateProvider) {
             }
         };
 
-		$scope.myFilter = function ($keycode) {
-			if ($keycode === 13) {
-				select.filter($scope.filter).then(function (response) {
-					$scope.entries = response.data;
-				});
+		$scope.filterEntries = function ($keycode) {
+			if ($keycode !== 13) {
+                return false;
 			}
+            EntriesFactory.filter($scope.filter).then(function (response) {
+                $scope.entries = response.data;
+            });
 		};
 
         function getEntries () {
@@ -65,6 +66,40 @@ app.config(function ($interpolateProvider) {
                     $scope.responseError(response);
                 });
         }
+
+        /**
+         * Calculate the restoration age.
+         * Last photo date minus original restoration date,
+         * rounded to the nearest 6 months.
+         * @param $keycode
+         * @returns {boolean}
+         */
+        $scope.restorationAge = function ($keycode, $entry) {
+            if ($keycode !== 13) {
+                return false;
+            }
+
+            var $originalRestorationDate;
+            var $lastPhotoDate;
+
+            if ($entry === $scope.new) {
+                $originalRestorationDate = $scope.new.original_restoration_date;
+                $lastPhotoDate = $scope.new.last_photo_date;
+            }
+            else {
+                $originalRestorationDate = $scope.edit.original_restoration_date.user;
+                $lastPhotoDate = $scope.edit.last_photo_date.user;
+            }
+
+            $originalRestorationDate = Date.parseExact($originalRestorationDate, ['d MMM yyyy', 'd/M/yyyy', 'd MMM yy', 'd/M/yy']).toString('dd/MM/yyyy');
+            $lastPhotoDate = Date.parseExact($lastPhotoDate, ['d MMM yyyy', 'd/M/yyyy', 'd MMM yy', 'd/M/yy']).toString('dd/MM/yyyy');
+
+            $originalRestorationDate = moment($originalRestorationDate, 'DD/MM/YYYY');
+            $lastPhotoDate = moment($lastPhotoDate, 'DD/MM/YYYY');
+            var $diff = $lastPhotoDate.diff($originalRestorationDate, 'years', true); // 86400000
+            $diff = Math.round($diff * 2) / 2;
+            $entry.restoration_age = $diff;
+        };
 
         $scope.insertEntry = function () {
             var $messages = [];
@@ -132,22 +167,22 @@ app.config(function ($interpolateProvider) {
 
 		$(".tooltipster").tooltipster();
 		
-		$scope.restorationAge = function ($keycode, $OR_date, $LP_date, $entry) {
-			if ($keycode === 13) {
-				//tab is pressed
-				// var $OR_date = $("#original-restoration-date").val();
-				// var $LP_date = $("#last-photo-date").val();
-				$OR_date = Date.parseExact($OR_date, ['d MMM yyyy', 'd/M/yyyy', 'd MMM yy', 'd/M/yy']).toString('dd/MM/yyyy');
-				$LP_date = Date.parseExact($LP_date, ['d MMM yyyy', 'd/M/yyyy', 'd MMM yy', 'd/M/yy']).toString('dd/MM/yyyy');
-
-				$OR_date = moment($OR_date, 'DD/MM/YYYY');
-				$LP_date = moment($LP_date, 'DD/MM/YYYY');
-				var $diff = $LP_date.diff($OR_date, 'years', true); // 86400000
-				$diff = Math.round($diff * 2) / 2;
-				// $scope.new.restoration_age = $diff;
-				$entry.restoration_age = $diff;
-			}
-		};
+		//$scope.restorationAge = function ($keycode, $OR_date, $LP_date, $entry) {
+		//	if ($keycode === 13) {
+		//		//tab is pressed
+		//		// var $OR_date = $("#original-restoration-date").val();
+		//		// var $LP_date = $("#last-photo-date").val();
+		//		$OR_date = Date.parseExact($OR_date, ['d MMM yyyy', 'd/M/yyyy', 'd MMM yy', 'd/M/yy']).toString('dd/MM/yyyy');
+		//		$LP_date = Date.parseExact($LP_date, ['d MMM yyyy', 'd/M/yyyy', 'd MMM yy', 'd/M/yy']).toString('dd/MM/yyyy');
+        //
+		//		$OR_date = moment($OR_date, 'DD/MM/YYYY');
+		//		$LP_date = moment($LP_date, 'DD/MM/YYYY');
+		//		var $diff = $LP_date.diff($OR_date, 'years', true); // 86400000
+		//		$diff = Math.round($diff * 2) / 2;
+		//		// $scope.new.restoration_age = $diff;
+		//		$entry.restoration_age = $diff;
+		//	}
+		//};
 
 		//$scope.dismiss = function ($message) {
 		//	$scope.error_messages = _.without($scope.error_messages, $message);

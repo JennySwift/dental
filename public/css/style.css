@@ -298,6 +298,9 @@ $expense_background: $light_blue; */
   #edit-entry-popup button {
     margin-top: 20px; }
 
+#filter-entries {
+  width: 500px; }
+
 .bg-dark {
   background: #e0eef3; }
 

@@ -10,7 +10,7 @@
                     <th>restoration type</th>
                     <th>original restoration date</th>
                     <th>last photo date</th>
-                    <th>restoration age</th>
+                    <th>restoration age (years)</th>
                 </tr>
                 <tr>
                     <td><input ng-model="new.first_name" type="text" placeholder="first name"></td>
@@ -21,8 +21,25 @@
                             <option ng-repeat="type in restorationTypes" value=[[type.id]]>[[type.name]]</option>
                         </select>
                     </td>
-                    <td><input ng-model="new.original_restoration_date" ng-keyup="restorationAge($event.keyCode, new.OR_date, new.LP_date, new)" type="text" placeholder="original restoration date" id="original-restoration-date"></td>
-                    <td><input ng-model="new.last_photo_date" ng-keyup="restorationAge($event.keyCode, new.OR_date, new.LP_date, new)" type="text" placeholder="last photo date" id="last-photo-date"></td>
+
+                    <td><input
+                            ng-model="new.original_restoration_date"
+                            ng-keyup="restorationAge($event.keyCode, new)"
+                            ng-blur="restorationAge(13, new)"
+                            type="text"
+                            placeholder="original restoration date"
+                            id="original-restoration-date">
+                    </td>
+
+                    <td><input
+                            ng-model="new.last_photo_date"
+                            ng-keyup="restorationAge($event.keyCode, new)"
+                            ng-blur="restorationAge(13, new)"
+                            type="text"
+                            placeholder="last photo date"
+                            id="last-photo-date">
+                    </td>
+
                     <td><input ng-model="new.restoration_age" type="text" placeholder="restoration age"></td>
                 </tr>
             </table>

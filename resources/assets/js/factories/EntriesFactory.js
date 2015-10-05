@@ -8,6 +8,12 @@ angular.module('dentalApp')
                 return $http.get($url);
             },
 
+            filter: function ($data) {
+                var $url = '/filter/entries';
+
+                return $http.post($url, {last_names: $data});
+            },
+
             insert: function ($new_entry) {
                 var $url = '/entries';
                 var $folders = [];

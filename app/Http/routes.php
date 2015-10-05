@@ -13,6 +13,8 @@
 
 Route::get('/', 'PagesController@home');
 
+Route::post('filter/entries', 'FilterController@entries');
+
 Route::resource('entries', 'EntriesController', ['only' => ['index', 'store', 'update', 'destroy']]);
 Route::resource('restoration-types', 'RestorationTypesController', ['only' => ['index', 'destroy']]);
 Route::resource('folders', 'FoldersController', ['only' => ['index', 'destroy']]);

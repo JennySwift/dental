@@ -15,13 +15,18 @@ class EntriesRepository {
 
         //Transform
         $resource = createCollection($entries, new EntryTransformer);
-        return transform($resource);
+        return transform($resource)['data'];
+    }
 
-//        $item = $this->createItem(
-//            $transaction,
-//            new TransactionTransformer
-//        );
-//
-//        return $this->responseWithTransformer($item, Response::HTTP_CREATED);
+    public function getFilteredEntries($lastNames)
+    {
+        $entries = Entry::with('restorationType')
+            ->with('folders')
+            ->whereIn('last_name', $lastNames)
+            ->get();
+
+        //Transform
+        $resource = createCollection($entries, new EntryTransformer);
+        return transform($resource)['data'];
     }
 }

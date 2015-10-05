@@ -26,8 +26,20 @@
                         {{--ng-change="restorationTypeName(edit)">--}}
                     </select>
                 </td>
-                <td><input type="text" ng-model="edit.original_restoration_date.user" ng-keyup="restorationAge($event.keyCode, edit.original_restoration_date.user, edit.last_photo_date.user, edit)"></td>
-                <td><input type="text" ng-model="edit.last_photo_date.user" ng-keyup="restorationAge($event.keyCode, edit.original_restoration_date.user, edit.last_photo_date.user, edit)"></td>
+
+                <td><input type="text"
+                       ng-model="edit.original_restoration_date.user"
+                       ng-keyup="restorationAge($event.keyCode, edit)"
+                       ng-blur="restorationAge(13, edit)">
+                </td>
+
+                <td><input
+                        type="text"
+                        ng-model="edit.last_photo_date.user"
+                        ng-keyup="restorationAge($event.keyCode, edit)"
+                        ng-blur="restorationAge(13, edit)">
+                </td>
+
                 <td><input type="text" ng-model="edit.restoration_age"></td>
             </tr>
         </table>
