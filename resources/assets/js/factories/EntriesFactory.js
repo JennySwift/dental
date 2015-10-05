@@ -30,20 +30,23 @@ angular.module('dentalApp')
                 return $http.post($url, $new_entry);
             },
             update: function ($entry) {
-                var $table = 'info';
-                $entry.original_restoration_date.sql = DatesFactory.sqlFormat($entry.original_restoration_date.user);
-                $entry.last_photo_date.sql = date.sqlFormat($entry.last_photo_date.user);
+                var $url = '/entries/' + $entry.id;
+                var $folders = [];
 
-                $entry.original_restoration_date.user = DatesFactory.userFormat($entry.original_restoration_date.user);
-                $entry.last_photo_date.user = DatesFactory.userFormat($entry.last_photo_date.user);
+                $entry.original_restoration_date = $filter('formatDate')($entry.original_restoration_date.user);
+                $entry.last_photo_date = $filter('formatDate')($entry.last_photo_date.user);
 
-                var $data = {
-                    url: $url,
-                    table: $table,
-                    entry: $entry
-                };
+                //folders
+                $.each($entry.folders, function (index, value) {
+                    if (value) {
+                        //this makes $folders an array of folder ids
+                        $folders.push(index);
+                    }
+                });
 
-                return $http.post($url, $data);
+                $entry.folders = $folders;
+
+                return $http.put($url, $entry);
             },
             destroy: function ($entry) {
                 var $url = '/entries/' + $entry.id;

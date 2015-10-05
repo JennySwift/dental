@@ -11,7 +11,7 @@
 <body class="" ng-controller="HomeController">
 
 @include('templates.header')
-@include('templates.popups')
+@include('templates.edit-entry-popup')
 
 <div class="main">
 

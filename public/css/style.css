@@ -292,6 +292,11 @@ $expense_background: $light_blue; */
         border-radius: 8px;
         height: 32px; }
 
+#edit-entry-popup {
+  padding: 20px; }
+  #edit-entry-popup button {
+    margin-top: 20px; }
+
 .bg-dark {
   background: #e0eef3; }
 

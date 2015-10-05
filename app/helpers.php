@@ -28,6 +28,16 @@ function convertDate($date, $for = NULL)
 }
 
 /**
+ * For array_filter(), when I don't want values that are 0 to be removed
+ * @param $value
+ * @return bool
+ */
+function removeFalseKeepZero($value)
+{
+    return $value || is_numeric($value);
+}
+
+/**
  *
  * @param $resource
  */

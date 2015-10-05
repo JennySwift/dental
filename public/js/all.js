@@ -13375,7 +13375,9 @@ app.config(function ($interpolateProvider) {
 		$scope.filter = [];
 		$scope.error_messages = [];
 		$scope.edit = {}; //Used for the editing folders popup. not to be confused with $scope.info iteration edit property.
-
+        $scope.show = {
+            popups: {}
+        };
         $scope.restorationTypes = restorationTypes;
         $scope.folders = folders;
         $scope.entries = entries;
@@ -13396,6 +13398,13 @@ app.config(function ($interpolateProvider) {
         $rootScope.responseError = function (response) {
             $rootScope.$broadcast('provideFeedback', ErrorsFactory.responseError(response), 'error');
             //$rootScope.hideLoading();
+        };
+
+        $rootScope.closePopup = function ($event, $popup) {
+            var $target = $event.target;
+            if ($target.className === 'popup-outer') {
+                $scope.show.popups[$popup] = false;
+            }
         };
 
 		$scope.myFilter = function ($keycode) {
@@ -13453,17 +13462,21 @@ app.config(function ($interpolateProvider) {
 			});
 		};
 
+        /**
+         * to display the edit popup. updateEntry is to make the database changes.
+         * @param $entry
+         */
 		$scope.editEntry = function ($entry) {
-			//to display the edit popup. updateEntry is to make the database changes.
 			$scope.edit = $entry;
 			$scope.edit.folders = {};
-			$scope.edit.show = true;
+			$scope.show.popups.editEntry = true;
 		};
 
 		$scope.updateEntry = function ($entry) {
 			EntriesFactory.update($entry).then(function (response) {
+                $rootScope.$broadcast('provideFeedback', 'Entry updated');
 				$scope.edit.show = false;
-				displayEntries();
+				//getEntries();
 			});
 		};
 
@@ -13579,20 +13592,23 @@ angular.module('dentalApp')
                 return $http.post($url, $new_entry);
             },
             update: function ($entry) {
-                var $table = 'info';
-                $entry.original_restoration_date.sql = DatesFactory.sqlFormat($entry.original_restoration_date.user);
-                $entry.last_photo_date.sql = date.sqlFormat($entry.last_photo_date.user);
+                var $url = '/entries/' + $entry.id;
+                var $folders = [];
 
-                $entry.original_restoration_date.user = DatesFactory.userFormat($entry.original_restoration_date.user);
-                $entry.last_photo_date.user = DatesFactory.userFormat($entry.last_photo_date.user);
+                $entry.original_restoration_date = $filter('formatDate')($entry.original_restoration_date.user);
+                $entry.last_photo_date = $filter('formatDate')($entry.last_photo_date.user);
 
-                var $data = {
-                    url: $url,
-                    table: $table,
-                    entry: $entry
-                };
+                //folders
+                $.each($entry.folders, function (index, value) {
+                    if (value) {
+                        //this makes $folders an array of folder ids
+                        $folders.push(index);
+                    }
+                });
 
-                return $http.post($url, $data);
+                $entry.folders = $folders;
+
+                return $http.put($url, $entry);
             },
             destroy: function ($entry) {
                 var $url = '/entries/' + $entry.id;
