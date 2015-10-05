@@ -35,7 +35,7 @@ angular.module('dentalApp')
 
                 return $http.post($url, $new_entry);
             },
-            update: function ($entry) {
+            wupdate: function ($entry) {
                 var $url = '/entries/' + $entry.id;
                 var $folders = [];
 
