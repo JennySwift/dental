@@ -13,6 +13,6 @@
 
 Route::get('/', 'PagesController@home');
 
-Route::resource('entries', 'EntriesController', ['only' => ['index', 'destroy']]);
+Route::resource('entries', 'EntriesController', ['only' => ['index', 'store', 'destroy']]);
 Route::resource('restoration-types', 'RestorationTypesController', ['only' => ['index', 'destroy']]);
 Route::resource('folders', 'FoldersController', ['only' => ['index', 'destroy']]);

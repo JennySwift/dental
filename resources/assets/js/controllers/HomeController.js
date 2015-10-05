@@ -7,7 +7,7 @@ app.config(function ($interpolateProvider) {
 
 (function () {
 
-	app.controller('HomeController', function ($scope, RestorationTypesFactory, FoldersFactory, EntriesFactory) {
+	app.controller('HomeController', function ($rootScope, $scope, RestorationTypesFactory, FoldersFactory, EntriesFactory) {
 
 		$scope.new = {};
 		$scope.filter = [];
@@ -18,6 +18,24 @@ app.config(function ($interpolateProvider) {
         $scope.folders = folders;
         $scope.entries = entries;
 
+        if (env === 'local') {
+            $scope.new = {
+                first_name: 'John',
+                last_name: 'Doe',
+                tooth_number: 3,
+                restoration_type_id: 3,
+                original_restoration_date: '1/1/2015',
+                last_photo_date: '',
+                folders: [],
+                note: 'hi there'
+            };
+        }
+
+        $rootScope.responseError = function (response) {
+            $rootScope.$broadcast('provideFeedback', ErrorsFactory.responseError(response), 'error');
+            //$rootScope.hideLoading();
+        };
+
 		$scope.myFilter = function ($keycode) {
 			if ($keycode === 13) {
 				select.filter($scope.filter).then(function (response) {
@@ -26,29 +44,48 @@ app.config(function ($interpolateProvider) {
 			}
 		};
 
-		$scope.addEntry = function () {
-			if (!$scope.new.folders || $scope.new.folders.length === 0 ) {
-				$scope.error_messages.push("You haven't chosen a folder.");
-				return;
-			}
-			else if (!$scope.new.first_name || $scope.new.first_name === "") {
-				$scope.error_messages.push("You haven't entered a first name.");
-				return;
-			}
-			else if (!$scope.new.last_name || $scope.new.last_name === "") {
-				$scope.error_messages.push("You haven't entered a last name.");
-				return;
-			}
-			else if (!$scope.new.tooth_number || $scope.new.tooth_number === "") {
-				$scope.error_messages.push("You haven't entered a tooth number.");
-				return;
-			}
-			else if (!$scope.new.restoration_type_id) {
-				$scope.error_messages.push("You haven't selected a restoration type.");
-				return;
-			}
+        function getEntries () {
+            //$scope.showLoading();
+            EntriesFactory.index()
+                .then(function (response) {
+                    $scope.entries = response.data;
+                    //$scope.provideFeedback('');
+                    //$scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        }
+
+        $scope.insertEntry = function () {
+            var $messages = [];
+
+            if (!$scope.new.folders || $scope.new.folders.length === 0 ) {
+                $messages.push("You haven't chosen a folder.");
+            }
+            else if (!$scope.new.first_name || $scope.new.first_name === "") {
+                $messages.push("You haven't entered a first name.");
+            }
+            else if (!$scope.new.last_name || $scope.new.last_name === "") {
+                $messages.push("You haven't entered a last name.");
+            }
+            else if (!$scope.new.tooth_number || $scope.new.tooth_number === "") {
+                $messages.push("You haven't entered a tooth number.");
+            }
+            else if (!$scope.new.restoration_type_id) {
+                $messages.push("You haven't selected a restoration type.");
+            }
+
+            if ($messages.length > 0) {
+                for (var i = 0; i < $messages.length; i++) {
+                    $rootScope.$broadcast('provideFeedback', $messages[i], 'error');
+                }
+                return false;
+            }
+
 			EntriesFactory.insert($scope.new).then(function (response) {
-				displayEntries();
+                $rootScope.$broadcast('provideFeedback', 'Entry added');
+				getEntries();
 				$scope.new = {};
 				$("#original-restoration-date, #last-photo-date").val("");
 			});

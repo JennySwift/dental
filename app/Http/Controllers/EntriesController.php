@@ -3,39 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Entry;
+use App\Models\RestorationType;
 use App\Models\WhereKept;
+use App\Repositories\EntriesRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Debugbar;
+use Symfony\Component\Debug\Debug;
 
+/**
+ * Class EntriesController
+ * @package App\Http\Controllers
+ */
 class EntriesController extends Controller
 {
 
-    public function updateWhereKept ($entry) {
-        $entry_id = $entry['entry_id'];
-        $where_kept = $entry['where_kept'];
+    /**
+     * @var EntriesRepository
+     */
+    private $entriesRepository;
 
-        $sql = "DELETE FROM where_kept WHERE info_id = $entry_id;";
-
-        $sql_result = $db->query($sql);
-
-        foreach ($where_kept as $folder) {
-            $folder_id = $folder['id'];
-
-            $sql = "INSERT INTO where_kept (info_id, folders_id) VALUES ($entry_id, $folder_id);";
-
-            $sql_result = $db->query($sql);
-        }
+    public function __construct(EntriesRepository $entriesRepository)
+    {
+        $this->entriesRepository = $entriesRepository;
     }
-
-    public function getLastEntry ($db) {
-        $sql = "SELECT MAX(id) FROM info;";
-        $sql_result = $db->query($sql);
-
-        $last_entry_id = $sql_result->fetchColumn();
-        return $last_entry_id;
-    }
-
+    /**
+     *
+     * @param null $filter
+     * @return array
+     */
     public function index ($filter = null) {
 //        if ($filter) {
 //            $entries = Entry::join('restoration_types', 'info.restoration_type', '=', 'restoration_types.id')
@@ -47,10 +44,33 @@ class EntriesController extends Controller
 //                ->orderBy('last_name', 'asc');
 //        }
 
-        $entries = [];
+        $entries = $this->entriesRepository->getEntries()['data'];
         return $entries;
     }
 
+    /**
+     * Insert a new entry
+     * @param Request $request
+     */
+    public function store(Request $request)
+    {
+        $entry = new Entry($request->except(['restoration_type_id', 'folders']));
+
+        Debugbar::info('all', $request->all());
+        Debugbar::info('type_id', $request->get('restoration_type_id'));
+        $restorationType = RestorationType::find($request->get('restoration_type_id'));
+        $entry->restorationType()->associate($restorationType);
+        $entry->save();
+
+        //Attach the folders
+        foreach ($request->get('folders') as $folder_id) {
+            $entry->folders()->attach($folder_id);
+        }
+    }
+
+    /**
+     *
+     */
     public function update()
     {
         $entry = json_decode(file_get_contents('php://input'), true)["entry"];
@@ -78,20 +98,10 @@ class EntriesController extends Controller
         updateWhereKept($db, $entry);
     }
 
-    public function store()
-    {
-        //inserting into info table
-        $sql = "INSERT INTO info (first_name, last_name, tooth_number, restoration_type, original_restoration_date, last_photo_date, restoration_age, note) VALUES ('$first_name', '$last_name', '$tooth_number', '$restoration_type', ?, ?, ?, '$note');";
-
-        $last_entry_id = getLastEntry($db);
-
-        //inserting into where_kept table
-        foreach ($where_kept as $folder_id) {
-            $sql = "INSERT INTO where_kept (info_id, folders_id) VALUES ($last_entry_id, $folder_id);";
-            $sql_result = $db->query($sql);
-        }
-    }
-
+    /**
+     *
+     * @param $id
+     */
     public function destroy($id)
     {
         Entry::find($id)->delete();

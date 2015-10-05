@@ -29,6 +29,7 @@ class PagesController extends Controller
     {
 //        return $this->entriesRepository->getEntries()['data'];
         JavaScript::put([
+            'env' => app()->env,
             'restorationTypes' => RestorationType::get(),
             'folders' => Folder::get(),
             'entries' => $this->entriesRepository->getEntries()['data']

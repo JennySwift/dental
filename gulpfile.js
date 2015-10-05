@@ -8,6 +8,8 @@ elixir(function(mix) {
         'plugins/*.js',
         'controllers/*.js',
         'factories/*.js',
+        'directives/*.js',
+        'filters/*.js',
     ], 'public/js/all.js');
 
     mix.stylesIn('resources/assets/css', 'public/css/plugins.css');

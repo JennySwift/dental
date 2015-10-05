@@ -7,4 +7,8 @@
     </li>
 </footer>
 
+
+
 <script type="text/javascript" src="/js/all.js"></script>
+
+@include('directive-templates.feedback')

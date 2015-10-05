@@ -14,8 +14,8 @@
 @include('templates.popups')
 
 <div class="main">
-	
-    @include('templates.feedback')
+
+    <feedback-directive></feedback-directive>
 	
 	@include('templates.new-entry')
 

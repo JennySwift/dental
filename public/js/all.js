@@ -13369,7 +13369,7 @@ app.config(function ($interpolateProvider) {
 
 (function () {
 
-	app.controller('HomeController', function ($scope, RestorationTypesFactory, FoldersFactory, EntriesFactory) {
+	app.controller('HomeController', function ($rootScope, $scope, RestorationTypesFactory, FoldersFactory, EntriesFactory) {
 
 		$scope.new = {};
 		$scope.filter = [];
@@ -13380,6 +13380,24 @@ app.config(function ($interpolateProvider) {
         $scope.folders = folders;
         $scope.entries = entries;
 
+        if (env === 'local') {
+            $scope.new = {
+                first_name: 'John',
+                last_name: 'Doe',
+                tooth_number: 3,
+                restoration_type_id: 3,
+                original_restoration_date: '1/1/2015',
+                last_photo_date: '',
+                folders: [],
+                note: 'hi there'
+            };
+        }
+
+        $rootScope.responseError = function (response) {
+            $rootScope.$broadcast('provideFeedback', ErrorsFactory.responseError(response), 'error');
+            //$rootScope.hideLoading();
+        };
+
 		$scope.myFilter = function ($keycode) {
 			if ($keycode === 13) {
 				select.filter($scope.filter).then(function (response) {
@@ -13388,29 +13406,48 @@ app.config(function ($interpolateProvider) {
 			}
 		};
 
-		$scope.addEntry = function () {
-			if (!$scope.new.folders || $scope.new.folders.length === 0 ) {
-				$scope.error_messages.push("You haven't chosen a folder.");
-				return;
-			}
-			else if (!$scope.new.first_name || $scope.new.first_name === "") {
-				$scope.error_messages.push("You haven't entered a first name.");
-				return;
-			}
-			else if (!$scope.new.last_name || $scope.new.last_name === "") {
-				$scope.error_messages.push("You haven't entered a last name.");
-				return;
-			}
-			else if (!$scope.new.tooth_number || $scope.new.tooth_number === "") {
-				$scope.error_messages.push("You haven't entered a tooth number.");
-				return;
-			}
-			else if (!$scope.new.restoration_type_id) {
-				$scope.error_messages.push("You haven't selected a restoration type.");
-				return;
-			}
+        function getEntries () {
+            //$scope.showLoading();
+            EntriesFactory.index()
+                .then(function (response) {
+                    $scope.entries = response.data;
+                    //$scope.provideFeedback('');
+                    //$scope.hideLoading();
+                })
+                .catch(function (response) {
+                    $scope.responseError(response);
+                });
+        }
+
+        $scope.insertEntry = function () {
+            var $messages = [];
+
+            if (!$scope.new.folders || $scope.new.folders.length === 0 ) {
+                $messages.push("You haven't chosen a folder.");
+            }
+            else if (!$scope.new.first_name || $scope.new.first_name === "") {
+                $messages.push("You haven't entered a first name.");
+            }
+            else if (!$scope.new.last_name || $scope.new.last_name === "") {
+                $messages.push("You haven't entered a last name.");
+            }
+            else if (!$scope.new.tooth_number || $scope.new.tooth_number === "") {
+                $messages.push("You haven't entered a tooth number.");
+            }
+            else if (!$scope.new.restoration_type_id) {
+                $messages.push("You haven't selected a restoration type.");
+            }
+
+            if ($messages.length > 0) {
+                for (var i = 0; i < $messages.length; i++) {
+                    $rootScope.$broadcast('provideFeedback', $messages[i], 'error');
+                }
+                return false;
+            }
+
 			EntriesFactory.insert($scope.new).then(function (response) {
-				displayEntries();
+                $rootScope.$broadcast('provideFeedback', 'Entry added');
+				getEntries();
 				$scope.new = {};
 				$("#original-restoration-date, #last-photo-date").val("");
 			});
@@ -13508,40 +13545,35 @@ app.factory('DatesFactory', function () {
 });
 
 angular.module('dentalApp')
-    .factory('EntriesFactory', function ($http, DatesFactory) {
+    .factory('EntriesFactory', function ($http, $filter, DatesFactory) {
         return {
-            //index: function () {
-            //    var $url = '/entries';
-            //
-            //    return $http.get($url);
-            //},
+
+            index: function () {
+                var $url = '/entries';
+
+                return $http.get($url);
+            },
+
             insert: function ($new_entry) {
-                var $url = 'ajax/insert.php';
-                var $table = 'info';
-                var $OR_date = $("#original-restoration-date").val();
-                var $LP_date = $("#last-photo-date").val();
-                var $where_kept = [];
+                var $url = '/entries';
+                var $folders = [];
 
-                $new_entry.original_restoration_date = DatesFactory.sqlFormat($OR_date);
-                $new_entry.last_photo_date = DatesFactory.sqlFormat($LP_date);
+                //$new_entry.original_restoration_date = DatesFactory.sqlFormat();
+                $new_entry.original_restoration_date = $filter('formatDate')($("#original-restoration-date").val());
+                //$new_entry.last_photo_date = DatesFactory.sqlFormat($("#last-photo-date").val());
+                $new_entry.last_photo_date = $filter('formatDate')($("#last-photo-date").val());
 
-                //$where_kept
+                //folders
                 $.each($new_entry.folders, function (index, value) {
                     if (value) {
-                        //this makes $where_kept an array of folder ids
-                        $where_kept.push(index);
+                        //this makes $folders an array of folder ids
+                        $folders.push(index);
                     }
                 });
 
-                $new_entry.where_kept = $where_kept;
+                $new_entry.folders = $folders;
 
-                //$data
-                var $data = {
-                    table: $table,
-                    new_entry: $new_entry
-                };
-
-                return $http.post($url, $data);
+                return $http.post($url, $new_entry);
             },
             update: function ($entry) {
                 var $table = 'info';
@@ -13561,6 +13593,48 @@ angular.module('dentalApp')
             }
         }
     });
+app.factory('ErrorsFactory', function ($q) {
+    return {
+
+        responseError: function (response) {
+
+            if(typeof response !== "undefined") {
+                var $message;
+
+                switch(response.status) {
+                    case 503:
+                        $message = 'Sorry, application under construction. Please try again later.';
+                        break;
+                    case 401:
+                        $message = 'You are not logged in';
+                        break;
+                    case 422:
+                        var html = "<ul>";
+                        angular.forEach(response.data, function(value, key) {
+                            var fieldName = key;
+                            angular.forEach(value, function(value) {
+                                html += '<li>'+value+'</li>';
+                            });
+                        });
+                        html += "</ul>";
+                        $message = html;
+                        break;
+                    default:
+                        $message = response.data.error;
+                        break;
+                }
+            }
+            else {
+                $message = 'There was an error';
+            }
+
+            return $message;
+
+            //return $q.reject(rejection);
+        }
+
+    };
+});
 angular.module('dentalApp')
     .factory('FoldersFactory', function ($http) {
         return {
@@ -13577,4 +13651,42 @@ angular.module('dentalApp')
 
         }
     });
+angular.module('dentalApp')
+    .directive('feedbackDirective', function ($sce, $timeout) {
+        return {
+            scope: {},
+            templateUrl: 'feedback-template',
+
+            link: function ($scope) {
+                $scope.feedbackMessages = [];
+                $scope.$on('provideFeedback', function (event, message, type) {
+                    var newMessage = {
+                        message: $sce.trustAsHtml(message),
+                        type: type
+                    };
+
+                    $scope.feedbackMessages.push(newMessage);
+
+                    $timeout(function () {
+                        $scope.feedbackMessages = _.without($scope.feedbackMessages, newMessage);
+                    }, 3000);
+                });
+            }
+        }
+    });
+angular.module('dentalApp')
+    .filter('formatDate', function ($rootScope) {
+        return function (input) {
+            if (input) {
+                if (!Date.parse(input)) {
+                    $rootScope.$broadcast('provideFeedback', 'Date is invalid', 'error');
+                    return input;
+                } else {
+                    return Date.parse(input).toString('yyyy-MM-dd');
+                }
+            }
+        }
+    });
+
+
 //# sourceMappingURL=all.js.map

@@ -13,6 +13,9 @@ use League\Fractal\TransformerAbstract;
  */
 function convertDate($date, $for = NULL)
 {
+    if (!$date) {
+        return;
+    }
     $date = Carbon::createFromFormat('Y-m-d', $date);
     switch($for) {
         case "sql":

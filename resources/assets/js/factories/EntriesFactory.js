@@ -1,38 +1,33 @@
 angular.module('dentalApp')
-    .factory('EntriesFactory', function ($http, DatesFactory) {
+    .factory('EntriesFactory', function ($http, $filter, DatesFactory) {
         return {
-            //index: function () {
-            //    var $url = '/entries';
-            //
-            //    return $http.get($url);
-            //},
+
+            index: function () {
+                var $url = '/entries';
+
+                return $http.get($url);
+            },
+
             insert: function ($new_entry) {
-                var $url = 'ajax/insert.php';
-                var $table = 'info';
-                var $OR_date = $("#original-restoration-date").val();
-                var $LP_date = $("#last-photo-date").val();
-                var $where_kept = [];
+                var $url = '/entries';
+                var $folders = [];
 
-                $new_entry.original_restoration_date = DatesFactory.sqlFormat($OR_date);
-                $new_entry.last_photo_date = DatesFactory.sqlFormat($LP_date);
+                //$new_entry.original_restoration_date = DatesFactory.sqlFormat();
+                $new_entry.original_restoration_date = $filter('formatDate')($("#original-restoration-date").val());
+                //$new_entry.last_photo_date = DatesFactory.sqlFormat($("#last-photo-date").val());
+                $new_entry.last_photo_date = $filter('formatDate')($("#last-photo-date").val());
 
-                //$where_kept
+                //folders
                 $.each($new_entry.folders, function (index, value) {
                     if (value) {
-                        //this makes $where_kept an array of folder ids
-                        $where_kept.push(index);
+                        //this makes $folders an array of folder ids
+                        $folders.push(index);
                     }
                 });
 
-                $new_entry.where_kept = $where_kept;
+                $new_entry.folders = $folders;
 
-                //$data
-                var $data = {
-                    table: $table,
-                    new_entry: $new_entry
-                };
-
-                return $http.post($url, $data);
+                return $http.post($url, $new_entry);
             },
             update: function ($entry) {
                 var $table = 'info';

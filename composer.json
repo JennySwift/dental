@@ -8,7 +8,8 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
         "laracasts/utilities": "~2.0",
-        "league/fractal": "^0.12.0"
+        "league/fractal": "^0.12.0",
+        "barryvdh/laravel-debugbar": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
