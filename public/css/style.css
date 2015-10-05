@@ -51,11 +51,6 @@ textarea {
   height: 70px;
   background: transparent; }
 
-/*==============================colours==============================*/
-/* $income_background: #B0FFC5; */
-/* $expense_background: #FFD6C8; */
-/* $income_background: $light_blue;
-$expense_background: $light_blue; */
 .fa {
   font-size: 24px; }
 
@@ -295,6 +290,13 @@ $expense_background: $light_blue; */
         border-radius: 8px;
         height: 32px; }
 
+#playground-notice {
+  text-align: center;
+  background: #d9534f;
+  padding: 8px;
+  color: white;
+  margin-top: -19px; }
+
 #edit-entry-popup {
   padding: 20px; }
   #edit-entry-popup button {
@@ -307,6 +309,6 @@ $expense_background: $light_blue; */
   background: #e0eef3; }
 
 .selected {
-  background: #6D84B4; }
+  background: #5bc0de; }
 
 /*# sourceMappingURL=style.css.map */
