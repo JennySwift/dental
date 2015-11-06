@@ -1,5 +1,7 @@
 
 <ul id="navbar" style="z-index:1000">
+    
+    <li><a href="http://jennyswiftcreations.com">jennyswiftcreations</a></li>
 
     <li>@include('templates.filter')</li>
 

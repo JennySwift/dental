@@ -275,7 +275,9 @@ textarea {
     #navbar > li:hover > a {
       font-size: 25px; }
   #navbar a {
-    color: #337ab7; }
+    color: #337ab7;
+    font-size: 19px;
+    font-weight: bold; }
   #navbar .gravatar-li {
     min-width: 160px; }
     #navbar .gravatar-li .gravatar-container {
